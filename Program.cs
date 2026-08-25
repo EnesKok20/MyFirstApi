@@ -1,25 +1,19 @@
-var builder = WebApplication.CreateBuilder(args);   //bir builder olusturdum
+var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();  //http gelirse https ye cevir.Guvenlik ve erisim gizliligi acisindan
+app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+// ---------- SENİN ENDPOINT'LERİN ----------
 
 app.MapGet("/merhaba", () =>
 {
@@ -31,25 +25,12 @@ app.MapGet("/merhaba/{isim}", (string isim) =>
     return $"Merhaba {isim}! API'ye hoş geldin!";
 });
 
-
-app.MapGet("/weatherforecast", () =>
+app.MapPost("/hesapla/topla", (int[] sayilar) =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+    var toplam = sayilar.Sum();
+    return new { Sayilar = sayilar, Toplam = toplam };
+});
+
+// -------------------------------------------
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
