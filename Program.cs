@@ -26,6 +26,11 @@ app.MapGet("/merhaba", () =>
     return "Merhaba, ben Enes! Bu benim ilk API endpoint'im!";
 });
 
+app.MapGet("/merhaba/{isim}", (string isim) =>
+{
+    return $"Merhaba {isim}! API'ye hoş geldin!";
+});
+
 
 app.MapGet("/weatherforecast", () =>
 {
