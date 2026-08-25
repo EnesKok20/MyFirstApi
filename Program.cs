@@ -1,4 +1,4 @@
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);   //bir builder olusturdum
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -14,12 +14,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseHttpsRedirection();  //http gelirse https ye cevir.Guvenlik ve erisim gizliligi acisindan
 
 var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
+
+app.MapGet("/merhaba", () =>
+{
+    return "Merhaba, ben Enes! Bu benim ilk API endpoint'im!";
+});
+
 
 app.MapGet("/weatherforecast", () =>
 {
